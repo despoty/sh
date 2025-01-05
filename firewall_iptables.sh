@@ -9,16 +9,16 @@ NC='\033[0m' # No Color
 
 # 检查是否安装了 iptables
 function check_firewall_installed() {
-    if which iptables >/dev/null 2>&1; then
+    if sudo iptables -V >/dev/null 2>&1; then
         echo -e "${GREEN}iptables 已安装，继续执行脚本...${NC}"
-    elif which nft >/dev/null 2>&1; then
+    elif sudo nft -v 2>&1; then
         echo -e "${RED}本脚本不适用 nftables，请安装 iptables.${NC}"
         exit 1
     else
         echo -e "${YELLOW}iptables 和 nftables 都未安装，正在安装 iptables...${NC}"
         sudo apt update
         sudo apt install -y iptables
-        if which iptables >/dev/null 2>&1; then
+        if sudo iptables -V >/dev/null 2>&1; then
             echo -e "${GREEN}iptables 安装完成，继续执行脚本...${NC}"
         else
             echo -e "${RED}安装 iptables 失败，请检查系统配置！${NC}"

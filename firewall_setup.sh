@@ -12,7 +12,7 @@ function check_firewall_installed() {
     # 检查 nftables 是否已安装
     if sudo nft -v >/dev/null 2>&1; then
         echo -e "${GREEN}nftables 已安装，继续执行脚本...${NC}"
-    elif which iptables >/dev/null 2>&1; then
+    elif sudo iptables -V 2>&1; then
         echo -e "${RED}本脚本不适用 iptables，请安装 nftables.${NC}"
         exit 1
     else
